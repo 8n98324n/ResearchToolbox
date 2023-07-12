@@ -1,0 +1,2 @@
+===v1.0===
+pyVHR.filters.rgb_filter_th revised
