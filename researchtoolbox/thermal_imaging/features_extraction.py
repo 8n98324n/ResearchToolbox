@@ -8,14 +8,28 @@ import cv2
 import os
 import matplotlib.pyplot as plt
 
+import researchtoolbox.utility.os as ruo
+
 # 如果想要旋转图像的话，见researchtoolbox.thermal_imaging.utils
 
 class features_extraction:
-    def __init__(self, model_path, input_file_path, output_file_path, no_rectangle_image_path, para_dict):
+    def __init__(self, model_path, input_file_path, output_file_path, para_dict):
+        cp = ruo.Path()
+
         self.model_path = model_path
         self.input_file_path = input_file_path
-        self.output_file_path = output_file_path
-        self.no_rectangle_image_path = no_rectangle_image_path
+        self.output_mp4_path = output_file_path+"video_output/"
+        self.no_rectangle_image_path = output_file_path+"test_images_output/"
+        self.visualization_path = output_file_path+"visualization_output/"
+        self.output_csv_path = output_file_path+"csv_output/"
+
+        cp.check_path_or_create(self.model_path)
+        cp.check_path_or_create(self.input_file_path)
+        cp.check_path_or_create(self.output_mp4_path)
+        cp.check_path_or_create(self.no_rectangle_image_path)
+        cp.check_path_or_create(self.output_csv_path)
+        cp.check_path_or_create(self.visualization_path)
+
         self.n_feature_points = para_dict.get("n_feature_points", 54+7)
         self.n_sampling = para_dict.get("n_sampling", 30)
         self.resize_height = para_dict.get("resize_height", 600)
@@ -41,8 +55,8 @@ class features_extraction:
             n_error = 0
             print("[INFO] Processing video: {}/{}".format(ind, len(video_files)))
             file_name = os.path.splitext(os.path.basename(input_file_fullname))[0]
-            output_file_fullname = self.output_file_path + "output_" + file_name + ".mp4"
-            output_csv_file_fullname = self.output_file_path + file_name + ".csv"
+            output_file_fullname = self.output_mp4_path + "output_" + file_name + ".mp4"
+            output_csv_file_fullname = self.output_csv_path + file_name + ".csv"
 
             # initialize the video stream
             vs = cv2.VideoCapture(input_file_fullname)
@@ -285,7 +299,7 @@ class features_extraction:
                 plt.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left')
                 # plt.title('test')
                 plt.tight_layout()
-                output_image_fullname = os.path.join(os.getcwd(), self.output_file_path + file_name + ".png")
+                output_image_fullname = os.path.join(os.getcwd(), self.visualization_path + file_name + ".png")
                 plt.savefig(output_image_fullname)
                 fig1 = plt.figure(file_name)
                 # plt.show()
