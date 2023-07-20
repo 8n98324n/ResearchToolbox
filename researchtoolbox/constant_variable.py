@@ -33,3 +33,5 @@ index_of_upper_lip = 52
 index_of_right_lip = 50
 index_of_lower_iip_outer = 51
 index_of_lower_iip = 53
+
+point_list = range(61)
