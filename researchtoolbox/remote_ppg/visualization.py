@@ -27,13 +27,14 @@ class Comparison:
             row = df_2.loc[df_2['ID'] == df_1["ID"][index]]
             if len(row)>0:
                 df_new_1 = pd.concat([df_new_1,df_1.loc[index]],axis=1,ignore_index=True)
-                df_new_2 = pd.concat([df_new_2,row.iloc[0]],axis=1,ignore_index=True)
-        df_new_1 = df_new_1.transpose()
+                df_new_2 = pd.concat([df_new_2,row.iloc[0]],axis=1,ignore_index=True)  # 如果存在两条及以上的切片，则取前2分钟的值
+        df_new_1 = df_new_1.transpose()  # 转置
         df_new_2 = df_new_2.transpose()
 
         import math
         mininum_threshold = 0
         maximum_threshold = 10000
+        
         def isfloat(num):
             try:
                 float(num)

@@ -19,6 +19,7 @@ class hrv:
     def update_global_list(self, output_list, MAD_list, average_MAD, HR_change_error,  file_name, input_file_path, total_rows, output_sequence, n_errors):
         file_name_with_sequence = file_name.replace(".csv", "") + "_" + str(output_sequence)
         output_file_name = os.path.join(input_file_path,"output", file_name_with_sequence + ".csv")
+        ros.Path().check_path_or_create(os.path.join(input_file_path,"output"))
         pd.DataFrame(output_list).to_csv(output_file_name, index=False, header=False)
         output_sequence += 1
         this_average_MAD = np.mean(MAD_list)
@@ -157,7 +158,7 @@ class hrv:
                             output_list, MAD_list, current_time, n_errors, previous_HR = self.update_local_list(previous_HR, current_HR, current_time, n_errors, hr_median,  input_table.loc[output_index, 2], output_list, MAD_list)
                             output_sequence, current_time,n_errors,output_list,MAD_list, average_MAD, HR_change_error = self.update_global_list(output_list, MAD_list, average_MAD, HR_change_error, file_name, input_file_path, total_rows, output_sequence, n_errors)
    
-
+        ros.Path().check_path_or_create(os.path.join(input_file_path, "output"))
         filenames_step2 = [os.path.join(input_file_path,"output", f) for f in os.listdir(os.path.join(input_file_path,"output")) if f.endswith(".csv")]
         output_summay_path = ros.Path().check_path_or_create(os.path.join(input_file_path, "summary"))
         
