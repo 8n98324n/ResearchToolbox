@@ -212,8 +212,7 @@ class Video:
             raise ValueError("Unknown 'bpm_type'")
 
         # median BPM from multiple estimators BPM
-        #median_bpmES, mad_bpmES = BPM_median(bpmES)
-        median_bpmES, mad_bpmES = multi_est_BPM_median(bpmES)
+        median_bpmES, mad_bpmES = BPM_median(bpmES)
 
 
         bpm_results = pd.DataFrame(
